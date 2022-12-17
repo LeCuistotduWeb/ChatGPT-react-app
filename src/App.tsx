@@ -12,8 +12,7 @@ function App() {
     event.preventDefault();
     if (!question) return null;
     setIsLoading(true);
-    const url = process.env.REACT_APP_OPENAI_API_URL || "";
-    await fetch(url, {
+    await fetch("https://api.openai.com/v1/completions", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -25,13 +24,13 @@ function App() {
         model: "text-davinci-003",
       }),
     })
-    .then((res) => res.json())
-    .then((data) => {
-      setResponse(data?.choices[0]?.text);
-      setQestion("");
-    })
-    .catch(err => setError(err.message))
-    .finally(() => setIsLoading(false));
+      .then((res) => res.json())
+      .then((data) => {
+        setResponse(data?.choices[0]?.text);
+        setQestion("");
+      })
+      .catch((err) => setError(err.message))
+      .finally(() => setIsLoading(false));
   };
   
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
